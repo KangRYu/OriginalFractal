@@ -14,13 +14,26 @@ import java.io.IOException;
 
 public class OriginalFractal extends PApplet {
 
+// Settings for the shift amounts within the fractals
+float lengthShift = 1;
+float angleShift = 1;
+float rshift = -0.5f;
+float gshift = -0.5f;
+float bshift = -0.5f;
+
 public void setup() {
     
     noStroke();
     rectMode(CENTER);
-    flowerFractal(width/2, height/2, 10, 0, 255, 255, 255);
-    flowerFractal2(width/2, height/2, 300, 0, 255, 255, 255);
-    swirlFractal(width/2, height/2, 10, 0, 255, 255, 255);
+}
+
+int len = 10;
+public void draw() {
+    background(200);
+    //portalFractal(width/2, height/2, 10, len, 0, 255, 255, 255);
+    flowerFractal(width/2, height/2, len, 100, 0, 255, 255, 255);
+    //swirlFractal(width/2, height/2, 10, len, 0, 0, 0, 0);
+    len++;
 }
 
 public void drawRect(float x, float y, float rectx, float recty, float w, float h, float angle, float r, float g, float b) {
@@ -32,33 +45,33 @@ public void drawRect(float x, float y, float rectx, float recty, float w, float 
     translate(-x, -y);
 }
 
-public void flowerFractal(float x, float y, float length, float angle, float r, float g, float b) {
-    if(length > 1000) {
+public void portalFractal(float x, float y, float length, int maxLen, float angle, float r, float g, float b) {
+    if(length > maxLen) {
         drawRect(x, y, length, length, length, length, angle, r, g, b);
     }
     else {
         drawRect(x, y, length, length, length, length, angle, r, g, b);
-        flowerFractal(x, y, length + 1, angle - 1, r - 0.5f, g - 0.5f, b - 0.5f);
+        portalFractal(x, y, length + lengthShift, maxLen, angle - angleShift, r + rshift, g + gshift, b + bshift);
     }
 }
 
-public void flowerFractal2(float x, float y, float length, float angle, float r, float g, float b) {
-    if(length < 10) {
+public void flowerFractal(float x, float y, float length, int maxLen, float angle, float r, float g, float b) {
+    if(length < maxLen) {
         drawRect(x, y, length, length, length, length, angle, r, g, b);
     }
     else {
         drawRect(x, y, length, length, length, length, angle, r, g, b);
-        flowerFractal(x, y, length - 1, angle - 1, r - 0.5f, g - 0.5f, b - 0.5f);
+        flowerFractal(x, y, length - lengthShift, maxLen, angle - angleShift, r + rshift, g + gshift, b + bshift);
     }
 }
 
-public void swirlFractal(float x, float y, float length, float angle, float r, float g, float b) {
-    if(length > 1000) {
+public void swirlFractal(float x, float y, float length, int maxLen, float angle, float r, float g, float b) {
+    if(length > maxLen) {
         drawRect(x, y, length, 0, length, length, angle, r, g, b);
     }
     else {
         drawRect(x, y, length, 0, length, length, angle, r, g, b);
-        swirlFractal(x, y, length + 1, angle - 0.01f, r - 0.5f, g - 0.5f, b - 0.5f);
+        swirlFractal(x, y, length + lengthShift, maxLen, angle - 0.01f, r - rshift, g - gshift, b - bshift);
     }
 }
   public void settings() {  size(500, 500); }
